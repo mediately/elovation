@@ -20,6 +20,10 @@ group :production do
   gem 'unicorn'
 end
 
+group :production, :development do
+  gem 'newrelic_rpm'
+end
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
