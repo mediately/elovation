@@ -4,7 +4,7 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Elovation::Application.load_tasks
+Jusk::Application.load_tasks
 
 begin
   require "rspec/core/rake_task"
