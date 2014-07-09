@@ -1,5 +1,6 @@
 class ResultsController < ApplicationController
   before_action :set_game
+  skip_before_action :verify_authenticity_token, only: :slack
 
   def create
     response = ResultService.create(@game, params[:result])
@@ -9,6 +10,30 @@ class ResultsController < ApplicationController
     else
       @result = response.result
       render :new
+    end
+  end
+
+  def slack
+    winner, loser = params[:text].split(':').map{ |name|
+      Player.where('name ilike ?', name).first.id
+    }
+
+    result = {
+      teams: {
+        '0' => {
+          players: winner,
+          relation: 'defeats'
+        },
+        '1' => {
+          players: loser
+        }
+      }
+    }
+
+    if ResultService.create(@game, result).success?
+      head :ok
+    else
+      head :bad_request
     end
   end
 
