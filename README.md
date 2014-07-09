@@ -5,5 +5,7 @@ Our customization of [Elovation](https://github.com/drewolson/elovation):
 - additional font charset (latin-ext)
 - New Relic for availability pinging (so Heroku doesn't kill it)
 - logo and colors
+- time display format
+- CET timezone
 
 Deploy with: `git push heroku mediately:master`
