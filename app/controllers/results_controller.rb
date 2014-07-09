@@ -15,23 +15,23 @@ class ResultsController < ApplicationController
 
   def slack
     winner, loser = params[:text].split(':').map{ |name|
-      Player.where('name ilike ?', name).first.id
+      Player.where('name ilike ?', name).first
     }
 
     result = {
       teams: {
         '0' => {
-          players: winner,
+          players: winner.id,
           relation: 'defeats'
         },
         '1' => {
-          players: loser
+          players: loser.id
         }
       }
     }
 
     if ResultService.create(@game, result).success?
-      head :ok
+      render plain: "Congratulations #{winner.name}!"
     else
       head :bad_request
     end
