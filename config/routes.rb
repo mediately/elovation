@@ -9,5 +9,5 @@ Jusk::Application.routes.draw do
   end
 
   get '/dashboard' => 'dashboard#show', as: :dashboard
-  root to: 'dashboard#show'
+  root to: 'games#first'
 end

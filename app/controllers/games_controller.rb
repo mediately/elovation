@@ -43,6 +43,10 @@ class GamesController < ApplicationController
     end
   end
 
+  def first
+    redirect_to Game.first
+  end
+
   private
 
   def set_game

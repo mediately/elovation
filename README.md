@@ -7,5 +7,6 @@ Our customization of [Elovation](https://github.com/drewolson/elovation):
 - logo and colors
 - time display format
 - CET timezone
+- root to first game
 
 Deploy with: `git push heroku mediately:master`
