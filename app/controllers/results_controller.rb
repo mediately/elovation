@@ -2,6 +2,8 @@ class ResultsController < ApplicationController
   before_action :set_game
   skip_before_action :verify_authenticity_token, only: :slack
 
+  SLACK_URL = 'https://mediately.slack.com/services/hooks/incoming-webhook?token=kNPXFOm3IN6fbEZ1Fg1c8x1R'
+
   def create
     response = ResultService.create(@game, params[:result])
 
@@ -31,7 +33,8 @@ class ResultsController < ApplicationController
     }
 
     if ResultService.create(@game, result).success?
-      render plain: "Congratulations #{winner.name}!"
+      post_to_slack(winner)
+      head :ok
     else
       head :bad_request
     end
@@ -51,6 +54,16 @@ class ResultsController < ApplicationController
   end
 
   private
+
+  def post_to_slack winner
+    text = "Congratulations *#{winner.name}*!\n\n"
+    text << @game.ratings.map.with_index(1){ |rating, i|
+      "#{i}. #{rating.player.name} (#{rating.value})"
+    }.join("\n")
+    text << "\n\nhttp://jusk.herokuapp.com/"
+    payload = {username: 'jusk', icon_emoji: ':pingpong:', text: text}.to_json
+    RestClient.post SLACK_URL, payload, content_type: :json
+  end
 
   def set_game
     @game = Game.find(params[:game_id])

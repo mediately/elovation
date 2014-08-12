@@ -11,6 +11,8 @@ gem 'jquery-rails'
 gem 'coffee-rails'
 gem 'uglifier'
 
+gem 'rest-client'
+
 gem 'dynamic_form'
 gem 'elo'
 gem 'trueskill', github: 'saulabs/trueskill', require: 'saulabs/trueskill'
