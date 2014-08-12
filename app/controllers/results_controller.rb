@@ -57,7 +57,7 @@ class ResultsController < ApplicationController
 
   def post_to_slack winner
     text = "Congratulations *#{winner.name}*!\n\n"
-    text << @game.ratings.map.with_index(1){ |rating, i|
+    text << @game.ratings.order("value DESC").map.with_index(1){ |rating, i|
       "#{i}. #{rating.player.name} (#{rating.value})"
     }.join("\n")
     text << "\n\nhttp://jusk.herokuapp.com/"
