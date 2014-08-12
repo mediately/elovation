@@ -34,7 +34,7 @@ class ResultsController < ApplicationController
 
     if ResultService.create(@game, result).success?
       post_to_slack(winner)
-      head :ok
+      render plain: "Well done!"
     else
       head :bad_request
     end
